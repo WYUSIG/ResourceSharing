@@ -53,7 +53,7 @@
                         </div>
                     </li>
                     <li>
-                        <a class="J_menuItem" href="resourceUpload.aspx"><i class="fa fa-male"></i> <span class="nav-label">个人信息</span></a>
+                        <a class="J_menuItem" href="profile.aspx"><i class="fa fa-male"></i> <span class="nav-label">个人信息</span></a>
                     </li>
                     <li>
                         <a href="#">
