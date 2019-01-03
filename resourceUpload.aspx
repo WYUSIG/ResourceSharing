@@ -9,11 +9,13 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <title>资源上传</title>
-    <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="favicon.ico"> 
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
 
     <link href="css/animate.min.css" rel="stylesheet">
     <link href="css/style.min.css" rel="stylesheet">
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
 </head>
 <body class="gray-bg">
     <form id="form1" runat="server">
@@ -24,17 +26,20 @@
 					<div class="ibox float-e-margins">
 						<div class="ibox-content">
 							<div class="file-manager">
-								<input type="text" placeholder="请输入资源名称" class="form-control m-b" runat="server" id="name">
+								<input type="text" placeholder="请输入资源名称" class="form-control m-b" runat="server" id="resourceName">
 								<h5>资源的标签：</h5>
-								<a href="#" class="file-control" id="lable" runat="server">未选择标签</a><br><br>
+                                
+								<input type="text" placeholder="未选择标签" class="form-control m-b" runat="server" id="lable">
+                                <br><br>
 								<textarea placeholder="请输入资源描述" class="form-control input-lg m-b" rows="10" runat="server" id="descn1"></textarea>
 								<h5>运行效果：</h5><input class="btn btn-primary btn-block" type="file" name="MyFileUploadInput" runat="server" /><br><br>
-								<h5>资源文件：</h5><input class="btn btn-primary btn-block" type="file" name="MyFileUploadInput" runat="server" /><br><br>
-								<asp:Button runat="server" Text="上传资源" class="btn btn-primary btn-block" onclick="aaa" ID="abb"/>
+								<h5>资源文件：</h5><input class="btn btn-primary btn-block" type="file" name="MyFileUploadInput1" runat="server" /><br><br>
+								<asp:Button runat="server" Text="上传资源" class="btn btn-primary btn-block" onclick="upload_click" ID="upload"/>
 
 								<div class="hr-line-dashed"></div>
 								<h5 class="tag-title">请选择标签</h5>
-								<ul class="tag-list" style="padding: 0">
+								<ul class="tag-list" style="padding: 0" id="lable_ul" runat="server">
+<!--
 									<li><a class="lables" href="#">html</a>
 									</li>
 									<li><a class="lables" href="#">css</a>
@@ -43,6 +48,7 @@
 									</li>
 									<li><a class="lables" href="#">asp.net</a>
 									</li>
+-->
 
 								</ul>
 								<div class="clearfix"></div>
@@ -104,6 +110,7 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/content.min.js"></script>
+    <script src="js/plugins/toastr/toastr.min.js"></script>
     <script src="js/resource_z.js"></script>
     <script>
         $(document).ready(function(){$(".file-box").each(function(){animationHover(this,"pulse")})});

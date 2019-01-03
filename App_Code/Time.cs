@@ -18,5 +18,9 @@ public class Time
     {
         return DateTime.Now.ToString();
     }
+    public static String getDate()
+    {
+        return DateTime.Today.ToShortDateString();
+    }
 
 }

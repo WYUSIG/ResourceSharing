@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
+using System.IO;
+using System.Data.SqlClient;
+using System.Data;
+using System.Collections;
 /// <summary>
 ///FileUtil 的摘要说明
 /// </summary>
@@ -37,16 +41,31 @@ public class FileUtil
             return false;
         }
     }
-    public static Boolean uploadFile(String categoryId, String uploader,String name,String descn,String fileName)
+    public static Boolean uploadFile(String categoryName, String uploader,String name,String descn,String fileName,String image)
     {
         String now = Time.getDataTime();
-        String insertsql = "INSERT INTO resource(categoryId,uploader,name,descn,codeFile,uploadTime) VALUES(" + categoryId + "'," + uploader + ",'"+name+"','"+descn+"','"+fileName+"','"+now+"')";
+        String categoryId = getCategoryIdByName(categoryName);
+        String insertsql = "INSERT INTO resource(categoryId,uploader,name,descn,codeFile,uploadTime) VALUES(" + categoryId + "," + uploader + ",'"+name+"','"+descn+"','"+fileName+"','"+now+"')";
+        
         try
         {
             int flag = SqlHelp.ExecuteNonQueryCount(insertsql);
             if (flag > 0)
             {
-                return true;
+                
+                String resourceId = getResourceId(uploader,now);
+                String insertsql1 = "INSERT INTO resourceImage(resourceId,image) VALUES("+resourceId+",'"+image+"')";
+                int flag1 = SqlHelp.ExecuteNonQueryCount(insertsql1);
+                if (flag1 > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }    
+                 
+
             }
             return false;
         }
@@ -54,5 +73,45 @@ public class FileUtil
         {
             return false;
         }
+    }
+    public static String getCategoryIdByName(String name)
+    {
+        String selectsql = "SELECT categoryId FROM category WHERE name='"+name+"'";
+        try
+        {
+            SqlDataReader reader = SqlHelp.GetDataReaderValue(selectsql);
+            if (reader.Read())
+            {
+                String categoryId = reader.GetInt32(0).ToString();
+                return categoryId;
+            }
+            return null;
+        }
+        catch (System.InvalidCastException e)
+        {
+            return null;
+        }
+    }
+    public static String getResourceId(String uploader,String time)
+    {
+        String selectsql = "SELECT resourceId FROM resource WHERE uploader="+uploader+" AND uploadTime='" + time + "'";
+        try
+        {
+            SqlDataReader reader = SqlHelp.GetDataReaderValue(selectsql);
+            if (reader.Read())
+            {
+                String resourceId = reader.GetInt32(0).ToString();
+                return resourceId;
+            }
+            return null;
+        }
+        catch (System.InvalidCastException e)
+        {
+            return null;
+        }
+    }
+    public static String FileSuffix(String fileName)
+    {
+        return Path.GetExtension(fileName);
     }
 }

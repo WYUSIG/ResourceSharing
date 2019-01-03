@@ -19,7 +19,7 @@ public class SqlHelp
         ///Initial Catalog=SimpleMESDB  数据库名称
         ///User ID=sa                   数据库用户名
         ///Password=admin123456         数据库密码
-        private const string connectionString = "Data Source=(Local);Pooling=False;Max Pool Size = 1024;Initial Catalog=教学管理系统;Persist Security Info=True;User ID=sa;Password=123456";
+        private const string connectionString = "Data Source=(Local);Pooling=False;Max Pool Size = 1024;Initial Catalog=Resource;Persist Security Info=True;User ID=sa;Password=123456";
  
  
  

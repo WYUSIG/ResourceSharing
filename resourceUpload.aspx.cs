@@ -6,63 +6,79 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.IO;
+using System.Data.SqlClient;
+using System.Data;
+using System.Collections;
 
 public partial class resourceUpload : System.Web.UI.Page
 {
+    
     protected void Page_Load(object sender, EventArgs e)
     {
-        for (int i = 0; i < 10; i++)
-        {
-            CreateFileDiv();
-        }
+        initFileList();
+        initLables();
     }
     protected void InputFileUploadButton_Click(object sender, EventArgs e)
     {
         HttpFileCollection files = Request.Files;
         string filePath = Server.MapPath("~/Files/");
-        if (files.Count != 0)
+        if (files.Count !=0)
         {
             string fileName = files[0].FileName;
             String fileUUIDName = FileUtil.getUUID();
-            files[0].SaveAs(System.IO.Path.Combine(filePath, fileUUIDName));
-            Response.Write("<p>上传成功</p>");
+            files[0].SaveAs(System.IO.Path.Combine(filePath, fileName));
+            Response.Write("<script>alert('上传成功')</script>");
         }
         else
         {
-            Response.Write("<p>未获取到Files:" + files.Count.ToString() + "</p>");
+            Response.Write("<script>alert('文件选择不完整')</script>");
+            //Response.Write("<p>未获取到Files:" + files.Count.ToString() + "</p>");
         }
     }
-    protected void upload(object sender, EventArgs e)
+    protected void upload_click(object sender, EventArgs e)
     {
         HttpFileCollection files = Request.Files;
+        String name = Request["resourceName"];
         String descn = descn1.Value;
-        String categoryName = lable.Title;
+        String categoryName = Request["lable"];
+        //String categoryName = Request["resourceName"];
         string filePath = Server.MapPath("~/Files/");
-        if (files.Count != 0)
+        String categoryId = FileUtil.getCategoryIdByName(categoryName);
+        
+        if (categoryId == null)
         {
-            string fileName = files[0].FileName;
+            Response.Write("<script>alert('标签无效')</script>");
+            return;
+        }
+        
+        if (files.Count==2)
+        {
+            
+            string imageName = files[0].FileName;
+            String imageUUIDName = FileUtil.getUUID();
+            files[0].SaveAs(System.IO.Path.Combine(filePath, imageUUIDName + FileUtil.FileSuffix(imageName)));
+
             String fileUUIDName = FileUtil.getUUID();
-            files[0].SaveAs(System.IO.Path.Combine(filePath, fileUUIDName));
-            Response.Write("<p>上传成功</p>");
+            string fileName = files[1].FileName;
+            files[1].SaveAs(System.IO.Path.Combine(filePath, fileUUIDName + FileUtil.FileSuffix(fileName)));
+            FileUtil.uploadFile(categoryName, "10000", name, descn, fileUUIDName + FileUtil.FileSuffix(fileName), imageUUIDName + FileUtil.FileSuffix(imageName));
+            CreateFileDiv(name, fileUUIDName + FileUtil.FileSuffix(fileName), Time.getDate());
+            //Response.Write(categoryName + "   " + name + "   " + descn);
+
+            Response.Write("<script>alert('上传成功')</script>");
+            //Response.Write(files.Count);
         }
         else
         {
-            Response.Write("<p>未获取到Files:" + files.Count.ToString() + "</p>");
+            //Response.Write("<script>alert('文件选择不完整')</script>");
         }
     }
-    protected void aaa(object sender, EventArgs e)
-    {
-        //Response.Write("<p>未获取到Files:</p>");
-        for (int i = 0; i < 10; i++)
-        {
-            CreateFileDiv();
-        }
-            
-    }
+    
     public void downloadFile_click(object sender, EventArgs e)
     {
         //Response.Write("<script>alert('下载')</script>");
-        DownloadFile("111.jpg", "Files/350947-106.jpg");
+        String UUIDName = ((System.Web.UI.Control)(sender)).ID;
+        DownloadFile(UUIDName, "Files/"+UUIDName);
     }
     private void CreateHtmlTag(string htmlTag)
     {
@@ -71,7 +87,7 @@ public partial class resourceUpload : System.Web.UI.Page
         hgg_div.InnerText = "我是一个" + htmlTag;
         Page.Controls.Add(hgg_div);
     }
-    private void CreateFileDiv()
+    private void CreateFileDiv(String name,String UUIDName,String time)
     {
         HtmlGenericControl from_div = new HtmlGenericControl("div");
         from_div.Attributes.Add("class", "file-box");
@@ -93,14 +109,14 @@ public partial class resourceUpload : System.Web.UI.Page
         //from_div3.InnerText="111";
         //HtmlGenericControl from_br = new HtmlGenericControl("br");
         HtmlGenericControl from_small = new HtmlGenericControl("small");
-        from_small.InnerText = "添加时间：2014-10-13";
-        from_div3.InnerHtml = "111<br/>";
+        from_small.InnerText = "上传时间："+time;
+        from_div3.InnerHtml = name+"<br/>";
         //from_div3.Controls.Add(from_br);
         from_div3.Controls.Add(from_small);
 
         Button button = new Button();
         button.Text="下载";
-        //button.ID = "444";
+        button.ID = UUIDName;
         button.CssClass = "btn btn-primary btn-block";
         button.Click += downloadFile_click; ; 
 
@@ -115,6 +131,16 @@ public partial class resourceUpload : System.Web.UI.Page
         fileList.Controls.Add(from_div);
     }
 
+    private void createLable(String name)
+    {
+        HtmlGenericControl from_li = new HtmlGenericControl("li");
+        HtmlGenericControl from_a = new HtmlGenericControl("a");
+        from_a.Attributes.Add("class", "lables");
+        from_a.Attributes.Add("href", "#");
+        from_a.InnerText=name;
+        from_li.Controls.Add(from_a);
+        lable_ul.Controls.Add(from_li);
+    }
     public void DownloadFile(string fileName, string fPath)
     {
         string filePath = Server.MapPath(fPath);//路径
@@ -129,5 +155,46 @@ public partial class resourceUpload : System.Web.UI.Page
         Response.BinaryWrite(bytes);
         Response.Flush();
         Response.End();
+    }
+    private void initFileList()
+    {
+        String selectsql = "SELECT * FROM [resource]";
+        try
+        {
+            SqlDataReader reader = SqlHelp.GetDataReaderValue(selectsql);
+            while (reader.Read())
+            {
+                String name = reader.GetString(3);
+                String UUIDName = reader.GetString(5);
+                String time = reader.GetDateTime(7).ToShortDateString();
+                CreateFileDiv(name,UUIDName,time);
+                
+            }
+            
+        }
+        catch (System.InvalidCastException e)
+        {
+            
+        }
+    }
+    private void initLables()
+    {
+        String selectsql = "SELECT * FROM category";
+        try
+        {
+            SqlDataReader reader = SqlHelp.GetDataReaderValue(selectsql);
+            while (reader.Read())
+            {
+                String name = reader.GetString(1);
+
+                createLable(name);
+
+            }
+
+        }
+        catch (System.InvalidCastException e)
+        {
+
+        }
     }
 }
