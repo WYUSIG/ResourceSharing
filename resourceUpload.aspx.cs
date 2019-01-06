@@ -118,7 +118,7 @@ public partial class resourceUpload : System.Web.UI.Page
         button.Text="下载";
         button.ID = UUIDName;
         button.CssClass = "btn btn-primary btn-block";
-        button.Click += downloadFile_click; ; 
+        button.Click += downloadFile_click; 
 
         from_a.Controls.Add(from_span);
         from_a.Controls.Add(from_div2);

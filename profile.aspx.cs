@@ -14,7 +14,17 @@ public partial class profile : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        initUser("10000");
+        if (Request.QueryString["id"] == null)
+        {
+            String userPhone = Session["id"].ToString();
+            String userId = getUserIdByPhone(userPhone);
+            initUser(userId);
+        }
+        else
+        {
+            initUser(Request.QueryString["id"]);
+        }
+        //initUser("10000");
         //createImg("7214f3587b804e5bb333aebe918b0a87.jpg");
     }
     private void initUser(String id)
@@ -46,6 +56,7 @@ public partial class profile : System.Web.UI.Page
                     headImage1="icon_head.png";
                 }
                 createImg(headImage1);
+                createSmallImg(headImage1);
                 if (!(reader.IsDBNull(6)))
                 {
                     String student_class1 = reader.GetString(6);
@@ -78,7 +89,24 @@ public partial class profile : System.Web.UI.Page
 
         }
     }
-
+    private String getUserIdByPhone(String phone)
+    {
+        String selectsql = "SELECT id FROM [user] WHERE phone='" + phone + "'";
+        try
+        {
+            SqlDataReader reader = SqlHelp.GetDataReaderValue(selectsql);
+            if (reader.Read())
+            {
+                String id = reader.GetInt32(0).ToString();
+                return id;
+            }
+            return null;
+        }
+        catch (System.InvalidCastException e)
+        {
+            return null;
+        }
+    }
     private void initResourceCount(String id)
     {
         String selectsql = "SELECT COUNT(*) FROM [resource] WHERE uploader="+id;
@@ -100,7 +128,7 @@ public partial class profile : System.Web.UI.Page
     }
     private void initconcernCount(String id)
     {
-        String selectsql = "SELECT COUNT(*) FROM [subscribe] WHERE concern=" + id;
+        String selectsql = "SELECT COUNT(*) FROM [subscribe] WHERE concern=" + id + " AND concern!=concerned";
         try
         {
             SqlDataReader reader = SqlHelp.GetDataReaderValue(selectsql);
@@ -119,7 +147,7 @@ public partial class profile : System.Web.UI.Page
     }
     private void initconcernedCount(String id)
     {
-        String selectsql = "SELECT COUNT(*) FROM [subscribe] WHERE concerned=" + id;
+        String selectsql = "SELECT COUNT(*) FROM [subscribe] WHERE concerned=" + id + " AND concern!=concerned";
         try
         {
             SqlDataReader reader = SqlHelp.GetDataReaderValue(selectsql);
@@ -181,6 +209,14 @@ public partial class profile : System.Web.UI.Page
         from_img.Attributes.Add("class", "img-circle head");
         from_img.Attributes.Add("alt", "image");
         div111.Controls.Add(from_img);
+    }
+    private void createSmallImg(String image)
+    {
+        HtmlGenericControl from_img = new HtmlGenericControl("img");
+        from_img.Attributes.Add("src", "Files/" + image);
+        from_img.Attributes.Add("class", "img-circle smallhead");
+        from_img.Attributes.Add("alt", "image");
+        smallavatar.Controls.Add(from_img);
     }
     private void createPublishDiv(String id,String head,String title,String userName,String time,String content,String lable,String commentCount,String replyCount)
     {

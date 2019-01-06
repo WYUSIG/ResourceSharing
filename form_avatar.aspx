@@ -4,14 +4,46 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
-    <meta name="description" content="修改头像页面">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>修改头像</title>
+    <link rel="shortcut icon" href="favicon.ico"> 
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min.css" rel="stylesheet">
+    <link href="css/resource_zh.css" rel="stylesheet">
 </head>
-<body>
+<body class="gray-bg">
     <form id="form1" runat="server">
-    <div>
-    
+    <div class="wrapper wrapper-content  animated fadeInRight article">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1">
+                <div class="ibox">
+                    <div class="ibox-content">
+                    	<h4>修改头像</h4>
+    					<div class="avatarDiv center">
+    						<p class="text-center"><img alt="image" src="Files/icon_head.png" class="avatarImage img-circle" id="avator"></p>
+    						<div class="avatarInput">
+    							<input class="btn btn-primary btn-block" type="file" name="MyFileUploadInput" runat="server" id="avatar_input"/>
+    						</div>
+    						<div class="avatarInput">
+    							<asp:Button runat="server" Text="上传头像" class="btn btn-danger btn-block dim" onclick="submit_click" ID="upload"/>
+    						</div>
+    					</div>
+    				</div>
+                </div>
+            </div>
+        </div>
     </div>
     </form>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/content.min.js"></script>
+    <script src="js/resource_z.js"></script>
+    <script>
+        $(document).ready(function(){$(".contact-box").each(function(){animationHover(this,"pulse")})});
+    </script>
 </body>
 </html>

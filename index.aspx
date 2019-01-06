@@ -21,6 +21,7 @@
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/animate.min.css" rel="stylesheet">
     <link href="css/style.min.css" rel="stylesheet">
+    <link href="css/resource_zh.css" rel="stylesheet">
 </head>
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
     <div id="wrapper">
@@ -34,11 +35,11 @@
                         <div class="dropdown profile-element">
                             
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                               <span><img alt="image" class="img-circle" src="img/profile_small.jpg" /></span>
-                                <span class="clear">
-                               <span class="block m-t-xs"><strong class="font-bold">Beaut-zihan</strong></span>
-                                
-                                </span>
+                               <span runat="server" id="avatar"></span>
+                               <span class="clear">
+                               <span class="block m-t-xs"><strong class="font-bold" runat="server" id="user_name">11</strong></span>
+                               <span class="text-muted text-xs block" runat="server" id="role">111</span>
+                               </span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
                                 <li><a class="J_menuItem" href="form_avatar.aspx">修改头像</a>
@@ -46,7 +47,7 @@
                                 <li><a class="J_menuItem" href="profile.aspx">个人资料</a>
                                 </li>
                                 <li class="divider"></li>
-                                <li><a href="login.aspx">安全退出</a>
+                                <li><a href="登录.aspx">安全退出</a>
                                 </li>
                             </ul>
                         </div>
@@ -64,14 +65,12 @@
                         </a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="J_menuItem" href="resourceDownload_follow.aspx" data-index="0">关注</a>
+                                <a class="J_menuItem" href="sub_allres.aspx" data-index="0">关注</a>
                             </li>
                             <li>
-                                <a class="J_menuItem" href="resourceDownload_all.aspx">世界</a>
+                                <a class="J_menuItem" href="all_res.aspx">世界</a>
                             </li>
-                            <li>
-                                <a class="J_menuItem" href="resourceDownload_hot.aspx">热门</a>
-                            </li>
+                            
                             
                         </ul>
 
@@ -83,7 +82,10 @@
                         <a class="J_menuItem" href="collection.aspx"><i class="fa fa-star"></i> <span class="nav-label">我的收藏</span></a>
                     </li>
                     <li>
-                        <a class="J_menuItem" href="follow.aspx"><i class="fa fa-heart"></i> <span class="nav-label">我的关注</span></a>
+                        <a class="J_menuItem" href="subscribe.aspx"><i class="fa fa-heart"></i> <span class="nav-label">我的关注</span></a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="myFans.aspx"><i class="fa fa-tree"></i> <span class="nav-label">我的粉丝</span></a>
                     </li>
                     <li>
                         <a href="#">
@@ -96,23 +98,19 @@
                                 <a class="J_menuItem" href="posting.aspx">发帖</a>
                             </li>
                             <li>
-                                <a class="J_menuItem" href="post_follow.aspx">关注用户帖子</a>
+                                <a class="J_menuItem" href="circlePublish.aspx">关注用户帖子</a>
                             </li>
                             <li>
-                                <a class="J_menuItem" href="post_all.aspx">全部帖子</a>
+                                <a class="J_menuItem" href="allPublish.aspx">全部帖子</a>
                             </li>
-                            <li>
-                                <a class="J_menuItem" href="post_hot.aspx">热门帖子</a>
-                            </li>
+                            
                             
                           
                         </ul>
                     </li>
 
                     
-                    <li>
-                        <a class="J_menuItem" href="post_hot.aspx"><i class="fa fa-magnet"></i> <span class="nav-label">学习推荐</span></a>
-                    </li>
+                    
                     
                 </ul>
             </div>

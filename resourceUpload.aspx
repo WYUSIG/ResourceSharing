@@ -79,6 +79,8 @@
 								</div>
 
 							</div>
+-->
+<!--
 							<div class="file-box" runat="server" onclick="downloadFile1">
 								<div class="file">
 									<a href="#">

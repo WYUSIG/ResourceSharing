@@ -10,11 +10,13 @@
 
     <title>帖子详情</title>
 
-    <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css" rel="stylesheet">
+<!--    <link rel="shortcut icon" href="favicon.ico"> -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
 
     <link href="css/animate.min.css" rel="stylesheet">
     <link href="css/style.min.css" rel="stylesheet">
+    <link href="css/resource_zh.css" rel="stylesheet">
 </head>
 <body class="gray-bg">
     <form id="form1" runat="server">
@@ -25,26 +27,38 @@
                     <div class="ibox-content">
                         <div class="pull-right">
                             
-                            <button class="btn btn-primary btn-xs" type="button">乐视超级自行车</button>
+                            <button class="btn btn-primary btn-xs" type="button" runat="server" id="lable1">乐视超级自行车</button>
+                            <button class="btn btn-white btn-xs" type="button" runat="server" id="time1">2019/1/2</button>
                         </div>
                         <div class="text-center article-title">
-                            <h1>
+                            <h1 runat="server" id="title1">
                                     自行车都智能化了，你可知道它的历史？
                             </h1>
+                            
                         </div>
-                        <p>
+                        <div style="text-align: center">
+							<p runat="server" id="author">
+								作者：
+<!--								<a data-toggle="tab" href="#contact-1"><img alt="image" src="img/a2.jpg" class="smallhead img-circle">袁岳</a>-->
+							</p>
+                        	
+                        </div>
+
+                        <p runat="server" id="publishContent">
                             在不少旁观者的眼里，智能化几乎成了一种避之唯恐不及的“瘟疫”，开始攀附上大大小小、各式各样的工具和设备，从水杯、灯泡、体重秤这样的小物件，再到冰箱、洗衣机这些生活中的庞然大物。
                         </p>
                         
                         <hr>
 
                         <div class="row">
-                            <div class="col-lg-12">
+                            <div class="col-lg-12" runat="server" id="commentList">
 
                                 <h2>评论：</h2>
+                                
+<!--
                                 <div class="social-feed-box">
                                     <div class="social-avatar">
-                                        <a href="default.htm" class="pull-left">
+                                        <a href="#" class="pull-left">
                                             <img alt="image" src="img/a1.jpg">
                                         </a>
                                         <div class="media-body">
@@ -53,7 +67,7 @@
                                             </a>
                                             <button class="btn btn-info btn-xs" type="button">老师</button>&nbsp;<button class="btn btn-danger btn-xs" type="button">优</button>
                                             <small class="text-muted">17 小时前</small>
-                                            <button class="btn btn-success btn pull-right dim" type="button">评论置优</button>
+                                            <asp:Button ID="Button1" runat="server" Text="评论置优" class="btn btn-success btn pull-right"/>
                                         </div>
                                     </div>
                                     <div class="social-body">
@@ -63,22 +77,25 @@
                                         
                                     </div>
                                 </div>
+-->
                                 
 								<div class="social-feed-box">
                                     <div class="input-group">
-										<textarea type="text" placeholder="输入评论内容" class="input form-control"></textarea>
+										<textarea type="text" placeholder="输入评论内容" class="input form-control" runat="server" id="comment_content"></textarea>
 										<span class="input-group-btn">
-											<button type="button" class="btn btn-lg btn-primary"> <i class="fa fa-comments-o"></i> 评论</button>
+                                            <asp:Button  class="btn btn-lg btn-primary" runat="server" Text="评论" onclick="comment_click"/>
+											
 										</span>
 									</div>
-<!--
+									
+<!--								
                                     <div class="media-body">
                                         <textarea class="form-control long" placeholder="填写评论..."></textarea>
                                         <button class="form-control btn btn-primary btn-block" type="button">确定</button>
                                     </div>
 -->
                                 </div>
-
+								<div runat="server" id="createComment"></div>
                             </div>
                         </div>
 

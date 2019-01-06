@@ -13,3 +13,7 @@ $(".lables").click(function(){
 	$("#lable").val($(this).text());
 });
 
+$("#avatar_input").change(function () {
+    $("#avator").attr("src", URL.createObjectURL($(this)[0].files[0]));
+});
+

@@ -24,7 +24,7 @@
 				<div class="col-sm-4">
 					<div class="ibox float-e-margins">
 						<div class="ibox-title feed-element">
-							<a href="#" class="pull-left"><img alt="image" class="img-circle" src="img/a1.jpg"></a><h5 class="profille">个人资料</h5>
+							<a href="#" class="pull-left" runat="server" id="smallavatar"></a><h5 class="profille">个人资料</h5>
 						</div>
 						<div>
 							<div class="ibox-content profile-content text-center" >
