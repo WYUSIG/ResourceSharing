@@ -14,18 +14,60 @@ public partial class profile : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (Session["id"] == null || Session["pwd"] == null)
+        {
+            Response.Redirect("登录.aspx", true);
+        }
         if (Request.QueryString["id"] == null)
         {
             String userPhone = Session["id"].ToString();
             String userId = getUserIdByPhone(userPhone);
             initUser(userId);
+            createButton(userId,true,false);
         }
         else
         {
+            if (Session["id"].ToString() == "管理员")
+            {
+                createButton(Request.QueryString["id"], false, false);
+            }
+            else
+            {
+                if (Request.QueryString["id"] == getUserIdByPhone(Session["id"].ToString()))
+                {
+                    createButton(Request.QueryString["id"], true, false);
+                }
+                else
+                {
+                    createButton(Request.QueryString["id"], false, true);
+                }
+            }
+            
             initUser(Request.QueryString["id"]);
         }
         //initUser("10000");
         //createImg("7214f3587b804e5bb333aebe918b0a87.jpg");
+    }
+    protected void alter_click(object sender, EventArgs e)
+    {
+        String userId = ((System.Web.UI.Control)(sender)).ID;
+
+    }
+    protected void fllow_click(object sender, EventArgs e)
+    {
+        String concernedId = ((System.Web.UI.Control)(sender)).ID;
+        concernedId = concernedId.Replace("temp","");
+        String now = Time.getDataTime();
+        String insertsql = "INSERT INTO subscribe(concern,concerned,time) VALUES(" + getUserIdByPhone(Session["id"].ToString()) + "," + concernedId + ",'" + now + "')";
+        try
+        {
+            SqlHelp.ExecuteNonQueryCount(insertsql);
+            Response.Write("<script>alert('关注成功')</script>");
+        } 
+        catch (System.InvalidCastException ee)
+        {
+
+        }
     }
     private void initUser(String id)
     {
@@ -217,6 +259,27 @@ public partial class profile : System.Web.UI.Page
         from_img.Attributes.Add("class", "img-circle smallhead");
         from_img.Attributes.Add("alt", "image");
         smallavatar.Controls.Add(from_img);
+    }
+    private void createButton(String id,Boolean alterFlag,Boolean fllowFlag)
+    {
+        Button alter=new Button();
+        alter.ID=id;
+        alter.CssClass="btn btn-primary btn-sm btn-block";
+        alter.Click+=alter_click;
+        alter.Text="修改个人资料";
+        Button fllow=new Button();
+        fllow.ID=id+"temp";
+        fllow.CssClass="btn btn-primary btn-sm btn-block";
+        fllow.Click+=alter_click;
+        fllow.Text="修改个人资料";
+        if (alterFlag==true)
+        {
+            buttonList.Controls.Add(alter);
+        }
+        if (fllowFlag==true)
+        {
+            buttonList.Controls.Add(fllow);
+        }
     }
     private void createPublishDiv(String id,String head,String title,String userName,String time,String content,String lable,String commentCount,String replyCount)
     {

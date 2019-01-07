@@ -29,7 +29,7 @@
 {
     background-size:contain|cover;
 
-    width:70%;
+    width:40%;
 
     height: auto;
 }
@@ -54,4 +54,15 @@
   {
     width:20%;
     margin:30px 40% 0px 40%;    
+  }
+  
+  .avatarInput1
+  {
+    width:40%;
+    margin:30px 30% 0px 30%;    
+  }
+  
+  .marginTop30
+  {
+    margin:30px 0px 0px 0px    
   }

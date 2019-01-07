@@ -59,9 +59,9 @@
 								<br><br>
 								<div class="user-button">
 									<div class="row">
-										<div class="col-sm-6 col-lg-12">
-											<button type="button" class="btn btn-primary btn-sm btn-block"><i class="fa fa-heart-o"></i> 修改个人资料</button>
-											<button type="button" class="btn btn-primary btn-sm btn-block"><i class="fa fa-heart-o"></i> 关注他</button>
+										<div class="col-sm-6 col-lg-12" runat="server" id="buttonList">
+                                            
+											
 										</div>
 
 									</div>
