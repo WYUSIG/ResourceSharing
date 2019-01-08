@@ -24,27 +24,28 @@
                     <div class="ibox-content">
                         <div class="pull-right">
                             
-                            <button class="btn btn-success btn-xs" type="button" runat="server" >高级资源</button>
+                            <button class="btn btn-success btn-xs" type="button" runat="server" id="level_flag">高级资源</button>
+                            <button class="btn btn-primary btn-xs" type="button" runat="server" id="category">.net</button>
                             <button class="btn btn-white btn-xs" type="button" runat="server" id="time1">2019/1/2</button>
                         </div>
                         <div class="text-center article-title">
                             <h1 runat="server" id="title1">
-                                    自行车都智能化了，你可知道它的历史？
+                                    
                             </h1>
                             
                         </div>
                         <div style="text-align: center">
-							<p runat="server" id="author">
-								上传者：<asp:Button  runat="server" Text="关注他" class="btn btn-primary btn" onclick="fllow_click"/><asp:Button  runat="server" Text="收藏资源" class="btn btn-primary btn resourcemargin20" onclick="collect_click"/>
+							<p>
+								上传者：<a runat="server" id="author"><i runat="server" id="author_i"></i><i runat="server" id="author_n"></i></a><asp:Button  runat="server" Text="关注" class="btn btn-primary btn" onclick="fllow_click" id="fllow"/><asp:Button  runat="server" Text="收藏资源" class="btn btn-primary btn resourcemargin20" onclick="collect_click" id="collect"/>
 <!--								<a data-toggle="tab" href="#contact-1"><img alt="image" src="img/a2.jpg" class="smallhead img-circle">袁岳</a>-->
 							</p>
                         	
                         </div>
 
                         <p runat="server" id="resourceContent">
-                            在不少旁观者的眼里，智能化几乎成了一种避之唯恐不及的“瘟疫”，开始攀附上大大小小、各式各样的工具和设备，从水杯、灯泡、体重秤这样的小物件，再到冰箱、洗衣机这些生活中的庞然大物。
+                            
                         </p>
-                        <p class="text-center" runat="server" id="resourceImage"><img alt="image" src="Files/icon_head.png" class="resourceImage"></p>
+                        <p class="text-center" runat="server" id="resourceImage"></p>
                         <div style="text-align: center">
 							<p runat="server" id="author1">
 								资源下载：
@@ -57,11 +58,12 @@
 											<i class="fa fa-file"></i>
 										</div>
 										<div class="file-name">
-											Document_2014.doc
-											<br/>
-											<small>添加时间：2014-10-13</small>
+											<p runat="server" id="file_name">Document_2014.doc</p>
+											
+											<small runat="server" id="file_time">上传时间：2014-10-13</small>
 										</div>
-                                        <asp:Button ID="Button1" runat="server" Text="下载" class="btn btn-primary btn-block" />
+                                       	<div runat="server" id="download"></div>
+                                        
 									</a>
 								</div>
 
@@ -75,7 +77,7 @@
                         <div class="row">
                             <div class="col-lg-12" runat="server" id="commentList">
 
-                                <h2>收藏数：</h2>
+                                <h3 runat="server" id="collect_count">收藏数：</h3>
                                 <div class="clearfix"></div>
                                 <div class="clearfix"></div>
                                 <div runat="server" id="admint">
@@ -85,14 +87,7 @@
                                 	<input type="text" placeholder="未选择标签" class="form-control m-b" runat="server" id="lable">
 									<ul class="tag-list" style="padding: 0" id="lable_ul" runat="server">
 	
-										<li><a class="lables" href="#">html</a>
-										</li>
-										<li><a class="lables" href="#">css</a>
-										</li>
-										<li><a class="lables" href="#">js</a>
-										</li>
-										<li><a class="lables" href="#">asp.net</a>
-										</li>
+										
 	
 
 									</ul>
@@ -102,7 +97,20 @@
                                 </div>
                                 <div class="col-sm-6">
                                 	<h5 class="tag-title">修改资源等级</h5>
-                                	<input type="text"  class="form-control m-b" runat="server">
+                                	<input type="text"  class="form-control m-b" runat="server" id="level"/>
+                                	<ul class="tag-list" style="padding: 0" id="lable_ul1" runat="server">
+	
+										<li><a class="lables1" >普通</a>
+										</li>
+										<li><a class="lables1">中级</a>
+										</li>
+										<li><a class="lables1">高级</a>
+										</li>
+										
+	
+
+									</ul>
+                             		<div class="clearfix"></div>
                                 	<h5 class="tag-title">删除资源</h5>
                                 	<asp:Button ID="Button2" runat="server" Text="删除资源" class="btn btn-danger btn-block" onclick="delete_click"/>
                                 	<div class="clearfix"></div>

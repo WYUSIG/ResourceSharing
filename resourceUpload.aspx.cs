@@ -35,9 +35,28 @@ public partial class resourceUpload : System.Web.UI.Page
             //Response.Write("<p>未获取到Files:" + files.Count.ToString() + "</p>");
         }
     }
+    private String getUserIdByPhone(String phone)
+    {
+        String selectsql = "SELECT id FROM [user] WHERE phone='" + phone + "'";
+        try
+        {
+            SqlDataReader reader = SqlHelp.GetDataReaderValue(selectsql);
+            if (reader.Read())
+            {
+                String id = reader.GetInt32(0).ToString();
+                return id;
+            }
+            return null;
+        }
+        catch (System.InvalidCastException e)
+        {
+            return null;
+        }
+    }
     protected void upload_click(object sender, EventArgs e)
     {
         HttpFileCollection files = Request.Files;
+        
         String name = Request["resourceName"];
         String descn = descn1.Value;
         String categoryName = Request["lable"];
@@ -53,7 +72,7 @@ public partial class resourceUpload : System.Web.UI.Page
         
         if (files.Count==2)
         {
-            
+            Response.Write(files.Count);
             string imageName = files[0].FileName;
             String imageUUIDName = FileUtil.getUUID();
             files[0].SaveAs(System.IO.Path.Combine(filePath, imageUUIDName + FileUtil.FileSuffix(imageName)));
@@ -61,8 +80,8 @@ public partial class resourceUpload : System.Web.UI.Page
             String fileUUIDName = FileUtil.getUUID();
             string fileName = files[1].FileName;
             files[1].SaveAs(System.IO.Path.Combine(filePath, fileUUIDName + FileUtil.FileSuffix(fileName)));
-            FileUtil.uploadFile(categoryName, "10000", name, descn, fileUUIDName + FileUtil.FileSuffix(fileName), imageUUIDName + FileUtil.FileSuffix(imageName));
-            CreateFileDiv(name, fileUUIDName + FileUtil.FileSuffix(fileName), Time.getDate());
+            FileUtil.uploadFile(categoryName, getUserIdByPhone(Session["id"].ToString()), name, descn, fileUUIDName + FileUtil.FileSuffix(fileName), imageUUIDName + FileUtil.FileSuffix(imageName));
+            CreateFileDiv(getResourceId(fileUUIDName + FileUtil.FileSuffix(fileName)), name, fileUUIDName + FileUtil.FileSuffix(fileName), Time.getDate());
             //Response.Write(categoryName + "   " + name + "   " + descn);
 
             Response.Write("<script>alert('上传成功')</script>");
@@ -87,14 +106,32 @@ public partial class resourceUpload : System.Web.UI.Page
         hgg_div.InnerText = "我是一个" + htmlTag;
         Page.Controls.Add(hgg_div);
     }
-    private void CreateFileDiv(String name,String UUIDName,String time)
+    private String getResourceId(String UUIDName)
+    {
+        String selectsql = "SELECT resourceId FROM resource WHERE codeFile='"+UUIDName+"'";
+        try
+        {
+            SqlDataReader reader = SqlHelp.GetDataReaderValue(selectsql);
+            if (reader.Read())
+            {
+                String id = reader.GetInt32(0).ToString();
+                return id;
+            }
+            return null;
+        }
+        catch (System.InvalidCastException e)
+        {
+            return null;
+        }
+    }
+    private void CreateFileDiv(String id,String name,String UUIDName,String time)
     {
         HtmlGenericControl from_div = new HtmlGenericControl("div");
         from_div.Attributes.Add("class", "file-box");
         HtmlGenericControl from_div1 = new HtmlGenericControl("div");
         from_div1.Attributes.Add("class", "file");
         HtmlGenericControl from_a = new HtmlGenericControl("a");
-        from_a.Attributes.Add("href", "#");
+        from_a.Attributes.Add("href", "resource_detail.aspx?id="+id);
         HtmlGenericControl from_span = new HtmlGenericControl("span");
         from_span.Attributes.Add("class", "corner");
         HtmlGenericControl from_div2 = new HtmlGenericControl("div");
@@ -136,7 +173,7 @@ public partial class resourceUpload : System.Web.UI.Page
         HtmlGenericControl from_li = new HtmlGenericControl("li");
         HtmlGenericControl from_a = new HtmlGenericControl("a");
         from_a.Attributes.Add("class", "lables");
-        from_a.Attributes.Add("href", "#");
+        
         from_a.InnerText=name;
         from_li.Controls.Add(from_a);
         lable_ul.Controls.Add(from_li);
@@ -164,10 +201,11 @@ public partial class resourceUpload : System.Web.UI.Page
             SqlDataReader reader = SqlHelp.GetDataReaderValue(selectsql);
             while (reader.Read())
             {
+                String resourceId=reader.GetInt32(0).ToString();
                 String name = reader.GetString(3);
                 String UUIDName = reader.GetString(5);
                 String time = reader.GetDateTime(7).ToShortDateString();
-                CreateFileDiv(name,UUIDName,time);
+                CreateFileDiv(resourceId, name, UUIDName, time);
                 
             }
             

@@ -43,7 +43,7 @@
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
                                 
-                                <li><a class="J_menuItem" href="profile.aspx">个人资料</a>
+                                <li><a class="J_menuItem" href="GM_info.aspx">个人资料</a>
                                 </li>
                                 <li class="divider"></li>
                                 <li><a href="登录.aspx">安全退出</a>
@@ -54,7 +54,7 @@
                         </div>
                     </li>
                     <li>
-                        <a class="J_menuItem" href="#"><i class="fa fa-male"></i> <span class="nav-label">个人信息</span></a>
+                        <a class="J_menuItem" href="GM_info.aspx"><i class="fa fa-male"></i> <span class="nav-label">个人信息</span></a>
                     </li>
                     <li>
                         <a class="J_menuItem" href="all_res.aspx"><i class="fa fa-upload"></i> <span class="nav-label">所有资源</span></a>
@@ -119,7 +119,7 @@
                 <a href="login.aspx" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
             </div>
             <div class="row J_mainContent" id="content-main">
-                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="resourceDownload_all.aspx" frameborder="0" data-id="resourceDownload_all.aspx" seamless></iframe>
+                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="welcome.aspx" frameborder="0" data-id="welcome.aspx" seamless></iframe>
             </div>
             <div class="footer">
                 <div class="pull-right">&copy; 天长地久 <a href="../../default.htm" target="_blank">2班debugs团队</a>

@@ -23,7 +23,7 @@ public partial class posting : System.Web.UI.Page
         Boolean b = content.IndexOf("\r\n") > 0;
         Boolean a = content.IndexOf("\n") > 0;
         String now = Time.getDataTime();
-        String insertsql = "INSERT INTO [publish](userId,content,time,title,flag) VALUES(10000,'"+content+"','"+now+"','"+title+"','"+lable+"')";
+        String insertsql = "INSERT INTO [publish](userId,content,time,title,flag) VALUES("+getUserIdByPhone(Session["id"].ToString())+",'"+content+"','"+now+"','"+title+"','"+lable+"')";
         try
         {
             SqlHelp.ExecuteNonQueryCount(insertsql);
@@ -38,5 +38,23 @@ public partial class posting : System.Web.UI.Page
         //    Response.Write(b);
             //Response.Write("<script>alert('有换行符')</script>");
         //}
+    }
+    private String getUserIdByPhone(String phone)
+    {
+        String selectsql = "SELECT id FROM [user] WHERE phone='" + phone + "'";
+        try
+        {
+            SqlDataReader reader = SqlHelp.GetDataReaderValue(selectsql);
+            if (reader.Read())
+            {
+                String id = reader.GetInt32(0).ToString();
+                return id;
+            }
+            return null;
+        }
+        catch (System.InvalidCastException e)
+        {
+            return null;
+        }
     }
 }

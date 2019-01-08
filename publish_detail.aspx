@@ -63,8 +63,9 @@
                                         </a>
                                         <div class="media-body">
                                             <a href="#">
-                                                    逆光狂胜蔡舞娘
+                                              逆光狂胜蔡舞娘
                                             </a>
+                                            <i></i><i></i>
                                             <button class="btn btn-info btn-xs" type="button">老师</button>&nbsp;<button class="btn btn-danger btn-xs" type="button">优</button>
                                             <small class="text-muted">17 小时前</small>
                                             <asp:Button ID="Button1" runat="server" Text="评论置优" class="btn btn-success btn pull-right"/>
@@ -77,8 +78,8 @@
                                         
                                     </div>
                                 </div>
--->
                                 
+-->
 								<div class="social-feed-box">
                                     <div class="input-group">
 										<textarea type="text" placeholder="输入评论内容" class="input form-control" runat="server" id="comment_content"></textarea>

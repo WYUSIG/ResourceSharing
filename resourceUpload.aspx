@@ -32,8 +32,8 @@
 								<input type="text" placeholder="未选择标签" class="form-control m-b" runat="server" id="lable">
                                 <br><br>
 								<textarea placeholder="请输入资源描述" class="form-control input-lg m-b" rows="10" runat="server" id="descn1"></textarea>
-								<h5>运行效果：</h5><input class="btn btn-primary btn-block" type="file" name="MyFileUploadInput" runat="server" /><br><br>
-								<h5>资源文件：</h5><input class="btn btn-primary btn-block" type="file" name="MyFileUploadInput1" runat="server" /><br><br>
+								<h5>运行效果：</h5><input class="btn btn-primary btn-block" type="file" name="MyFileUploadInput[]" runat="server" id="Image"/><br><br>
+								<h5>资源文件：</h5><input class="btn btn-primary btn-block" type="file" name="MyFileUploadInput[]" runat="server" id="resource"/><br><br>
 								<asp:Button runat="server" Text="上传资源" class="btn btn-primary btn-block" onclick="upload_click" ID="upload"/>
 
 								<div class="hr-line-dashed"></div>

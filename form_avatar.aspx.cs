@@ -4,6 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Data.SqlClient;
+using System.Data;
+using System.Collections;
+using System.Web.UI.HtmlControls;
 
 public partial class form_avatar : System.Web.UI.Page
 {
@@ -13,6 +17,7 @@ public partial class form_avatar : System.Web.UI.Page
         {
             Response.Redirect("登录.aspx", true);
         }
+        initUser();
     }
     protected void submit_click(object sender, EventArgs e)
     {
@@ -46,5 +51,44 @@ public partial class form_avatar : System.Web.UI.Page
         
         
     }
-    
+    private void initUser()
+    {
+        String phone = Session["id"].ToString();
+        String selectsql = "SELECT * FROM [user] WHERE phone='"+phone+"'";
+        try
+        {
+            SqlDataReader reader = SqlHelp.GetDataReaderValue(selectsql);
+            String headImage;
+            if (reader.Read())
+            {
+
+                if (reader.IsDBNull(4))
+                {
+                    headImage = "icon_head.png";
+                }
+                else
+                {
+                    headImage = reader.GetString(4);
+                }
+            }
+            else
+            {
+                headImage = "icon_head.png";
+            }
+            createImg(headImage);
+        }
+        catch (System.InvalidCastException e)
+        {
+            
+        }
+    }
+    private void createImg(String image)
+    {
+        HtmlGenericControl from_img = new HtmlGenericControl("img");
+        from_img.Attributes.Add("src", "Files/" + image);
+        from_img.Attributes.Add("class", "avatarImage img-circle");
+        from_img.Attributes.Add("alt", "image");
+        from_img.Attributes.Add("id", "avator");
+        user_avator.Controls.Add(from_img);
+    }
 }

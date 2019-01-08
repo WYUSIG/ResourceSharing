@@ -50,8 +50,8 @@ public partial class profile : System.Web.UI.Page
     }
     protected void alter_click(object sender, EventArgs e)
     {
-        String userId = ((System.Web.UI.Control)(sender)).ID;
-
+        //String userId = ((System.Web.UI.Control)(sender)).ID;
+        Response.Redirect("alter_profile.aspx", true);
     }
     protected void fllow_click(object sender, EventArgs e)
     {
@@ -63,6 +63,7 @@ public partial class profile : System.Web.UI.Page
         {
             SqlHelp.ExecuteNonQueryCount(insertsql);
             Response.Write("<script>alert('关注成功')</script>");
+            Response.Redirect("profile.aspx?id="+Request.QueryString["id"], true);
         } 
         catch (System.InvalidCastException ee)
         {
@@ -229,12 +230,32 @@ public partial class profile : System.Web.UI.Page
                 }
                 String lable = reader.GetString(5);
                 String time = reader.GetDateTime(3).ToShortDateString();
-                createPublishDiv(publishId,head,title,userName,time,content,lable,"0","0");
+                createPublishDiv(publishId, head, title, userName, time, content, lable, getCommentCount(publishId));
             }
         }
         catch (System.InvalidCastException e)
         {
 
+        }
+    }
+
+    private String getCommentCount(String publishId)
+    {
+        String selectsql = "SELECT COUNT(*) FROM comment WHERE publishId=" + publishId;
+        try
+        {
+            SqlDataReader reader = SqlHelp.GetDataReaderValue(selectsql);
+            String count = null;
+            if (reader.Read())
+            {
+                count = reader.GetInt32(0).ToString();
+
+            }
+            return count;
+        }
+        catch (System.InvalidCastException e)
+        {
+            return null;
         }
     }
     /**
@@ -270,8 +291,8 @@ public partial class profile : System.Web.UI.Page
         Button fllow=new Button();
         fllow.ID=id+"temp";
         fllow.CssClass="btn btn-primary btn-sm btn-block";
-        fllow.Click+=alter_click;
-        fllow.Text="修改个人资料";
+        fllow.Click+=fllow_click;
+        fllow.Text="关注";
         if (alterFlag==true)
         {
             buttonList.Controls.Add(alter);
@@ -281,7 +302,7 @@ public partial class profile : System.Web.UI.Page
             buttonList.Controls.Add(fllow);
         }
     }
-    private void createPublishDiv(String id,String head,String title,String userName,String time,String content,String lable,String commentCount,String replyCount)
+    private void createPublishDiv(String id,String head,String title,String userName,String time,String content,String lable,String commentCount)
     {
         HtmlGenericControl from_div = new HtmlGenericControl("div");
         from_div.Attributes.Add("class", "ibox");
@@ -345,8 +366,15 @@ public partial class profile : System.Web.UI.Page
         //from_i2.Attributes.Add("class", "fa fa-paw");
         //from_div8.Controls.Add(from_i2);
         //from_div8.InnerText = replyCount + "回复";
+        Button button = new Button();
+        button.ID = id;
+        button.CssClass = "btn btn-w-m btn-danger";
+        button.Click += delete_click;
+        button.Attributes.Add("onclick", "javascript:if(confirm('确定要删除吗?')){}else{return false;}");
+        button.Text = "删除";
         from_div6.Controls.Add(from_h2);
         from_div6.Controls.Add(from_div7);
+        from_div6.Controls.Add(button);
         //from_div6.Controls.Add(from_div8);
         from_div5.Controls.Add(from_div6);
         from_div3.Controls.Add(from_div4);
@@ -360,5 +388,11 @@ public partial class profile : System.Web.UI.Page
         from_div.Controls.Add(from_div1);
         publish_list.Controls.Add(from_div);
         
+    }
+    protected void delete_click(object sender, EventArgs e)
+    {
+        String pId = ((System.Web.UI.Control)(sender)).ID;
+
+        SqlHelp.ExecuteNonQuery("DELETE FROM [publish] WHERE publishId=" + pId);
     }
 }

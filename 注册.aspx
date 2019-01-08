@@ -7,6 +7,8 @@
    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/resource_z.js"></script>
     <style type="text/css">
         .style1
         {
@@ -113,25 +115,22 @@
             <td class="style4">
                 <strong>头像：</strong></td>
             <td>
-                <input id="UP_FILE" runat="server" accept="image/*" name="UP_FILE" 
+                <input id="avator_input" runat="server"  name="UP_FILE" 
                     style="Width:320" type="file" /></td>
         </tr>
         <tr>
             <td class="style4">
                 <strong><span class="style9">*</span>身份：</strong></td>
             <td>
-                <asp:RadioButtonList ID="RadioButtonList2" runat="server" AutoPostBack="True" 
-                    Font-Size="Large" ForeColor="White" 
-                    onselectedindexchanged="RadioButtonList2_SelectedIndexChanged">
-                    <asp:ListItem>教师</asp:ListItem>
-                    <asp:ListItem Selected="True">学生</asp:ListItem>
-                </asp:RadioButtonList>
-                <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" 
-                     ErrorMessage="RequiredFieldValidator" ControlToValidate="RadioButtonList2" 
-                     ForeColor="Red">*请选择您的身份</asp:RequiredFieldValidator>
+                <label class="radio-inline text-warning">
+				  <input type="radio" checked="" value="option1"  name="optionsRadios" runat="server" id="re_student" onclick="fun1()"/>
+				  学生</label>
+				<label class="radio-inline">
+				  <input type="radio"  value="option2" name="optionsRadios" runat="server" id="re_teacher" onclick="fun()"/>
+				  教师</label>
             </td>
         </tr>
-        <tr>
+        <tr id="hind_class">
             <td class="style5">
                <asp:Label ID="Label1" runat="server" Font-Size="Large" 
                     style="text-align: right" Text="班级： "></asp:Label>
@@ -140,7 +139,7 @@
                 <asp:TextBox ID="TextBox6" runat="server" Font-Size="Large"></asp:TextBox>
             </td>
         </tr>
-        <tr>
+        <tr id="hind_teacher">
             <td class="style2">
                 <asp:Label ID="Label2" runat="server" BorderColor="Black" Font-Size="Large" 
                     style="text-align: right; color: #FFFFFF" Text="任课老师："></asp:Label>
@@ -174,7 +173,7 @@
     </table>
     <br />
     <br />
-    <asp:Button ID="Button1" runat="server" Height="39px" onclick="Button1_Click" 
+    <asp:Button ID="upload4" runat="server" Height="39px" onclick="Button1_Click" 
         style="margin-left: 742px" Text="注册" Width="124px" />
     </form>
 </body>

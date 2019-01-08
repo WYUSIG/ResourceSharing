@@ -96,7 +96,7 @@ public partial class allPublish : System.Web.UI.Page
     private void search(string str)
     {
         //string str = TextBox1.Text.ToString();
-        string sql = "SELECT [publish].title,[user].name,[publish].time,[publish].content ,[publish].publishId FROM [user],[publish] WHERE  publish.userId = [user].id AND  ([user].name LIKE '%" + str + "%' OR [publish].title LIKE '%" + str + "%') order by time desc";
+        string sql = "SELECT [publish].title,[user].name,[publish].time,[publish].content ,[publish].publishId,[publish].flag FROM [user],[publish] WHERE  publish.userId = [user].id AND  ([user].name LIKE '%" + str + "%' OR [publish].title LIKE '%" + str + "%') order by time desc";
         int count = SqlHelp.SqlServerRecordCount(sql);
         if (count > 0)
         {
@@ -110,7 +110,11 @@ public partial class allPublish : System.Web.UI.Page
                     string time = reader.GetDateTime(2).ToString();
                     string content = reader.GetString(3);
                     string publishId = reader.GetInt32(4).ToString();
-
+                    String lable = "";
+                    if(!(reader.IsDBNull(5)))
+                    {
+                        lable = reader.GetString(5);
+                    }
                     string countReply = SqlHelp.SqlServerRecordCount("SELECT * FROM comment WHERE publishId = '" + publishId + "'").ToString();
 
                     if (content.Length > 200)
@@ -118,7 +122,7 @@ public partial class allPublish : System.Web.UI.Page
                         content = content.Substring(0, 200) + "...";
                     }
 
-                    createPublishDiv(title, name, time, content, "lable", countReply, publishId);
+                    createPublishDiv(title, name, time, content, lable, countReply, publishId, getDeleteFlag(publishId));
                 }
                 catch (System.InvalidCastException eee)
                 {
@@ -130,6 +134,59 @@ public partial class allPublish : System.Web.UI.Page
         }
     }
 
+    private Boolean getDeleteFlag(String publishId)
+    {
+        if (Session["role"].ToString() == "管理员")
+        {
+            return true;
+        }
+        if (getUserIdByPhone(Session["id"].ToString()) == getUserId(publishId))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private String getUserIdByPhone(String phone)
+    {
+        String selectsql = "SELECT id FROM [user] WHERE phone='" + phone + "'";
+        try
+        {
+            SqlDataReader reader = SqlHelp.GetDataReaderValue(selectsql);
+            if (reader.Read())
+            {
+                String id = reader.GetInt32(0).ToString();
+                return id;
+            }
+            return null;
+        }
+        catch (System.InvalidCastException e)
+        {
+            return null;
+        }
+    }
+    private String getUserId(String publishId)
+    {
+        String selectsql = "SELECT userId FROM publish WHERE publishId=" + publishId;
+        try
+        {
+            SqlDataReader reader = SqlHelp.GetDataReaderValue(selectsql);
+            String userId = null;
+            if (reader.Read())
+            {
+                userId = reader.GetInt32(0).ToString();
+
+            }
+            return userId;
+        }
+        catch (System.InvalidCastException e)
+        {
+            return null;
+        }
+    }
 
     private void delete_click(object sender, EventArgs e)
     {
@@ -139,7 +196,7 @@ public partial class allPublish : System.Web.UI.Page
     }
 
 
-    private void createPublishDiv(String title, String userName, String time, String content, String lable, String commentCount,String pId)
+    private void createPublishDiv(String title, String userName, String time, String content, String lable, String commentCount,String pId,Boolean deleteFlag)
     {
         HtmlGenericControl from_divbox = new HtmlGenericControl("div");
         from_divbox.Attributes.Add("class", "ibox");
@@ -237,7 +294,11 @@ public partial class allPublish : System.Web.UI.Page
         from_div221.Controls.Add(from_h52);
         from_div221.Controls.Add(from_div2211);
         from_div221.Controls.Add(from_divbtn);
-        from_divbtn.Controls.Add(button_delete);
+        if (deleteFlag == true)
+        {
+            from_divbtn.Controls.Add(button_delete);
+        }
+        
         from_div2211.Controls.Add(from_icomment);
     }
     

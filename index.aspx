@@ -79,7 +79,7 @@
                         <a class="J_menuItem" href="resourceUpload.aspx"><i class="fa fa-upload"></i> <span class="nav-label">资源上传</span></a>
                     </li>
                     <li>
-                        <a class="J_menuItem" href="collection.aspx"><i class="fa fa-star"></i> <span class="nav-label">我的收藏</span></a>
+                        <a class="J_menuItem" href="col_res.aspx"><i class="fa fa-star"></i> <span class="nav-label">我的收藏</span></a>
                     </li>
                     <li>
                         <a class="J_menuItem" href="subscribe.aspx"><i class="fa fa-heart"></i> <span class="nav-label">我的关注</span></a>
@@ -216,7 +216,7 @@
                 <a href="login.aspx" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
             </div>
             <div class="row J_mainContent" id="content-main">
-                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="resourceDownload_all.aspx" frameborder="0" data-id="resourceDownload_all.aspx" seamless></iframe>
+                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="welcome.aspx" frameborder="0" data-id="resourceDownload_all.aspx" seamless></iframe>
             </div>
             <div class="footer">
                 <div class="pull-right">&copy; 天长地久 <a href="../../default.htm" target="_blank">2班debugs团队</a>
@@ -228,9 +228,9 @@
         <!--上传资源-->
         <div id="small-chat">
             
-            <a class="open-small-chat">
+            <a class="open-small-chat" href="resourceUpload.aspx">
                 <i class="fa fa-file"></i>
-
+				
             </a>
         </div>
     </div>

@@ -62,6 +62,7 @@ public partial class 登录 : System.Web.UI.Page
             }
         }
         else {
+            
             String selectSql1 = "SELECT * FROM [admintor] WHERE phone='" + id+ "'";
             int count1 = SqlHelp.SqlServerRecordCount(selectSql1);//返回符合的结果数量
             if (count1 > 0)//如果信息>0则说明匹配成功
@@ -80,6 +81,9 @@ public partial class 登录 : System.Web.UI.Page
                             //Session["role"] = RadioButtonList1.SelectedItem.Text;
                             //Response.Redirect("index.aspx?id=" + Session["id"]);
                             Response.Write("<script>alert('登陆成功')</script>");
+                            Session["id"] = account.Text;
+                            Session["pwd"] = PW.Text;
+                            Session["role"] = RadioButtonList1.SelectedItem.Text;
                             Response.Redirect("index_v1.aspx", true);
                         }
                         else

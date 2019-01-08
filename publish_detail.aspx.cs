@@ -36,7 +36,7 @@ public partial class publish_detail : System.Web.UI.Page
             {
                 levelFlag = false;
             }
-            createCommentDiv(getCommentId(id,userId,now),userId, getPublishUser(userId, 1), getPublishUser(userId, 4), content, getUserFlag(userId, "教师"), false, now, true, true, levelFlag);
+            createCommentDiv(getCommentId(id,userId,now),userId, getPublishUser(userId, 1), getPublishUser(userId, 4), content, getUserFlag(userId), false, now, true, true, levelFlag);
         }
         catch (System.InvalidCastException ee)
         {
@@ -205,7 +205,7 @@ public partial class publish_detail : System.Web.UI.Page
                         good = true;
                     }
                 }
-                createCommentDiv(commentId,userId, getPublishUser(userId, 1), getPublishUser(userId, 4), content, getUserFlag(userId, "教师"), good, time, deleteFlag, false, levelFlag);
+                createCommentDiv(commentId,userId, getPublishUser(userId, 1), getPublishUser(userId, 4), content, getUserFlag(userId), good, time, deleteFlag, false, levelFlag);
             }
         }
         catch (System.InvalidCastException e)
@@ -251,7 +251,7 @@ public partial class publish_detail : System.Web.UI.Page
     }
 
 
-    private Boolean getUserFlag(String userId,String flag)
+    private Boolean getUserFlag(String userId)
     {
         String selectsql = "SELECT * FROM [user] WHERE id=" + userId;
         try
@@ -260,7 +260,7 @@ public partial class publish_detail : System.Web.UI.Page
             if (reader.Read())
             {
                 String userFlag = reader.GetString(8);
-                if (flag == userFlag)
+                if (userFlag == "教师")
                 { 
                     return true;
                 }
@@ -296,13 +296,13 @@ public partial class publish_detail : System.Web.UI.Page
             HtmlGenericControl from_button = new HtmlGenericControl("button");
             from_button.Attributes.Add("class", "btn btn-info btn-xs");
             from_button.Attributes.Add("type", "button");
-            from_button.InnerText = "老师";
+            from_button.InnerText = "教师";
         //}
         //+&nbsp;
         //if (good_flag==true)
         //{
             HtmlGenericControl from_button1 = new HtmlGenericControl("button");
-            from_button1.Attributes.Add("class", "btn btn-info btn-xs");
+            from_button1.Attributes.Add("class", "btn btn-info btn-xs publishmargin5");
             from_button1.Attributes.Add("type", "button");
             from_button1.InnerText = "优";
         //}
@@ -317,6 +317,7 @@ public partial class publish_detail : System.Web.UI.Page
         deletebutton.CssClass = "btn btn-danger btn";
         deletebutton.Text = "删除";
         deletebutton.ID = commentId;
+        deletebutton.Attributes.Add("onclick", "javascript:if(confirm('确定要删除吗?')){}else{return false;}");
         deletebutton.Click += delete_click;
         Button levelbutton = new Button();
         if (deleteFlag == true)
@@ -339,7 +340,7 @@ public partial class publish_detail : System.Web.UI.Page
         {
             if (teacher_flag == true)
             {
-                from_div2.InnerHtml = "&nbsp;";
+                //from_div2.InnerHtml = "&nbsp;";
             }
             from_div2.Controls.Add(from_button1);
         }
@@ -389,4 +390,5 @@ public partial class publish_detail : System.Web.UI.Page
         from_a.Controls.Add(from_i);
         author.Controls.Add(from_a);
     }
+    
 }

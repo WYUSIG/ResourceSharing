@@ -58,7 +58,7 @@
     						<textarea placeholder="请输入宣言" rows="5" runat="server" class="avatarInput" runat="server" id="sig"></textarea>
     						
                             <div class="avatarInput">
-    							<asp:Button runat="server" Text="修改个人信息" class="btn btn-danger btn-block dim" onclick="submit_click" ID="upload"/>
+    							<asp:Button runat="server" Text="修改个人信息" class="btn btn-danger btn-block dim" onclick="submit_click" ID="upload1"/>
     						</div>
     					</div>
     				</div>

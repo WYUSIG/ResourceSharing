@@ -14,7 +14,7 @@ public partial class allPublish : System.Web.UI.Page
         //Session["phone"] = "13066288360";
         string idstr = SqlHelp.ExecuteScalar("SELECT id FROM [user] WHERE phone ='" + Session["id"] + "'").ToString();
         Session["id"] = idstr;
-        string sql = "SELECT [publish].title,[user].name,[publish].time,[publish].content ,[publish].publishId FROM [user],[publish],[subscribe] WHERE  publish.userId = [user].id AND [user].id=subscribe.concerned AND subscribe.concern=" + Session["id"] + "order by time desc";
+        string sql = "SELECT [publish].title,[user].name,[publish].time,[publish].content ,[publish].publishId,[publish].flag FROM [user],[publish],[subscribe] WHERE  publish.userId = [user].id AND [user].id=subscribe.concerned AND subscribe.concern=" + Session["id"] + "order by time desc";
 
          int count = SqlHelp.SqlServerRecordCount(sql);
          if (count > 0)
@@ -31,7 +31,11 @@ public partial class allPublish : System.Web.UI.Page
                      string time = reader.GetDateTime(2).ToString();
                      string content = reader.GetString(3);
                      string publishId = reader.GetInt32(4).ToString();
-
+                     String lable = "";
+                     if (!(reader.IsDBNull(5)))
+                     {
+                         lable = reader.GetString(5);
+                     }
                      string countReply = SqlHelp.SqlServerRecordCount("SELECT * FROM comment WHERE publishId = '" + publishId + "'").ToString();
 
                      if (content.Length > 200)
@@ -39,7 +43,7 @@ public partial class allPublish : System.Web.UI.Page
                          content = content.Substring(0,200)+"...";
                      }
 
-                     createPublishDiv(title, name, time, content, "lable", countReply,publishId);
+                     createPublishDiv(title, name, time, content, lable, countReply,publishId);
                  }
                  catch (System.InvalidCastException eee)
                  {

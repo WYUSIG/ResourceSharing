@@ -35,7 +35,7 @@ public partial class alter_profile : System.Web.UI.Page
         }
         String newPassword = user_password.Value;
         String newSchool = school.Value;
-        String neweClass = user_class.Value;
+        String newClass = user_class.Value;
         String newTeacher = teacher.Value;
         String newBirthday = birthday.Value;
         String newSig = sig.Value;
@@ -50,15 +50,19 @@ public partial class alter_profile : System.Web.UI.Page
         String filePath = Server.MapPath("~/Files/");
         String fileName=null;
         String fileUUIDName = null;
-        if (files.Count != 0)
+        String updatesql;
+        if (avatar_input.Value != "")
         {
             fileName = files[0].FileName;
             fileUUIDName = FileUtil.getUUID();
             files[0].SaveAs(System.IO.Path.Combine(filePath, fileUUIDName + FileUtil.FileSuffix(fileName)));
-            
+            updatesql = "UPDATE  [user] SET name='" + newName + "',sex='" + newSex + "',phone='" + newPhone + "',password='" + newPassword + "',class='" + newClass + "',taecher='" + newTeacher + "',birthday='" + newBirthday + "',sig='" + newSig + "',school='" + newSchool + "',headImage='" + fileUUIDName + FileUtil.FileSuffix(fileName) + "' WHERE id=" + userId;
         }
-        String updatesql = "UPDATE  [user] SET name='" + newName + "',sex='" + newSex + "'phone='" + newPhone + "',password='" + newPassword + "',class='" + newClass + "',teacher='" + newTeacher + "',birthday='" + newBirthday + "',sig='" + newSig + "',school='" + newSchool + "',headImage='" + fileUUIDName + FileUtil.FileSuffix(fileName) + "' WHERE id=" + userId;
-
+        else
+        {
+            updatesql = "UPDATE  [user] SET name='" + newName + "',sex='" + newSex + "',phone='" + newPhone + "',password='" + newPassword + "',class='" + newClass + "',taecher='" + newTeacher + "',birthday='" + newBirthday + "',sig='" + newSig + "',school='" + newSchool + "' WHERE id=" + userId;
+        }
+        
         try
         {
             SqlHelp.ExecuteNonQueryCount(updatesql);
@@ -191,6 +195,7 @@ public partial class alter_profile : System.Web.UI.Page
         from_img.Attributes.Add("src", "Files/" + image);
         from_img.Attributes.Add("class", "avatarImage img-circle");
         from_img.Attributes.Add("alt", "image");
+        from_img.Attributes.Add("id", "avator");
         avator_p.Controls.Add(from_img);
     }
     

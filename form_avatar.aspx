@@ -24,12 +24,12 @@
                     <div class="ibox-content">
                     	<h4>修改头像</h4>
     					<div class="avatarDiv center">
-    						<p class="text-center"><img alt="image" src="Files/icon_head.png" class="avatarImage img-circle" id="avator"></p>
+    						<p class="text-center" runat="server" id="user_avator"></p>
     						<div class="avatarInput">
     							<input class="btn btn-primary btn-block" type="file" name="MyFileUploadInput" runat="server" id="avatar_input"/>
     						</div>
     						<div class="avatarInput">
-    							<asp:Button runat="server" Text="上传头像" class="btn btn-danger btn-block dim" onclick="submit_click" ID="upload"/>
+    							<asp:Button runat="server" Text="上传头像" class="btn btn-danger btn-block dim" onclick="submit_click" ID="upload2"/>
     						</div>
     					</div>
     				</div>

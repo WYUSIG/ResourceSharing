@@ -5,7 +5,10 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.SqlClient;
-
+using System.Data.SqlClient;
+using System.Data;
+using System.Collections;
+using System.Web.UI.HtmlControls;
 
 public partial class 注册 : System.Web.UI.Page
 {
@@ -22,7 +25,17 @@ public partial class 注册 : System.Web.UI.Page
         String pw1 = TextBox2.Text;
         String class1 = TextBox6.Text;
         String teacher1 = TextBox7.Text;
-        String flag1 = RadioButtonList2.SelectedItem.Text;
+        
+        String flag1;
+
+        if (re_student.Checked==true)
+        {
+            flag1 = "学生";
+        }
+        else
+        {
+            flag1 = "教师";
+        }
         String birthday1=TextBox8.Text;
         String sig1=TextBox9.Text;
         String school=TextBox10.Text;
@@ -35,7 +48,7 @@ public partial class 注册 : System.Web.UI.Page
         {
             HttpFileCollection files = Request.Files;
             string filePath = Server.MapPath("~/Files/");
-            if (files.Count != 0)
+            if (avator_input.Value!="")
             {
                 string fileName = files[0].FileName;
                 String fileUUIDName = FileUtil.getUUID();
@@ -46,7 +59,7 @@ public partial class 注册 : System.Web.UI.Page
                 SqlHelp.ExecuteNonQueryCount(Sql);
                 insertSubscribe(phone1);
                 Response.Write("<script>alert('注册成功')</script>");
-                Response.Redirect("登录.aspx", true);
+                //Response.Redirect("登录.aspx", true);
             }
             else
             {
@@ -58,22 +71,7 @@ public partial class 注册 : System.Web.UI.Page
         }
     }
     
-    protected void RadioButtonList2_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        if (RadioButtonList2.SelectedItem.Text == "教师")
-        {
-            TextBox6.Visible = false;
-            TextBox7.Visible = false;
-            Label1.Visible = false;
-            Label2.Visible = false;
-        }
-        else {
-            TextBox6.Visible = true;
-            TextBox7.Visible = true;
-            Label1.Visible = true;
-            Label2.Visible = true;
-        }
-    }
+    
 
     private void insertSubscribe(String phone)
     {
